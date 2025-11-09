@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>A la Pierre — Reservations</title>
+  <meta name="description" content="Reserve a table at A la Pierre — seasonal Italian dining, warm hospitality." />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600..800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Page-only niceties (non-breaking) */
+    .hero-reservations .badge {
+      background: rgba(255,255,255,.85);
+      border: 1px solid #e5e7eb;
+      color: #111;
+    }
+    .guest-stepper .btn {
+      width: 42px; height: 42px; padding: 0;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .help-hint { color: var(--muted); font-size: .9rem; }
+  </style>
+</head>
+
+<body class="bg-body text-body min-vh-100 d-flex flex-column">
+  <a class="visually-hidden-focusable position-absolute top-0 start-0 p-2" href="#main">Skip to main content</a>
+
+  <!-- NAVBAR -->
+  <header class="sticky-top red-nav shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand fw-bold brand-title text-accent" href="index.html">🍽️ A&nbsp;la&nbsp;Pierre</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="mainNav" class="collapse navbar-collapse">
+          <ul class="navbar-nav ms-auto align-items-lg-center nav-underline">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="menu.html">Menu</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="reservations.html">Reservations</a></li>
+            <li class="nav-item ms-lg-3">
+              <a class="btn btn-outline-light rounded-pill px-3" href="contact.html">
+                <i class="bi bi-envelope"></i> Contact
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero-about hero-reservations text-white d-flex align-items-center">
+    <div class="overlay"></div>
+    <div class="container position-relative">
+      <div class="row align-items-center">
+        <div class="col-12 col-lg-8">
+          <h1 class="display-4 fw-bold fancy-heading mb-2">Reserve a Table</h1>
+          <p class="lead opacity-90 mb-3">Seasonal Italian cooking, handcrafted daily — we’re excited to host you.</p>
+          <div class="d-flex gap-2 flex-wrap">
+            <span class="badge rounded-pill fw-semibold">Mon–Thu: 12:00–22:00</span>
+            <span class="badge rounded-pill fw-semibold">Fri–Sun: 12:00–23:00</span>
+            <span class="badge rounded-pill fw-semibold">Family-friendly</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORM + INFO -->
+  <main id="main" class="py-5 flex-grow-1">
+    <div class="container">
+      <div class="row g-4">
+        <!-- FORM -->
+        <div class="col-12 col-lg-7">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body p-4 p-md-5">
+              <h2 class="h1 section-title mb-4">Book a Table</h2>
+
+              <div class="alert alert-success d-none" id="resSuccess" role="status" aria-live="polite">
+                ✅ Reservation submitted successfully! We'll confirm via email.
+              </div>
+              <div class="alert alert-danger d-none" id="resError" role="alert">
+                ⚠️ Please fill out all required fields correctly (and choose a time within opening hours).
+              </div>
+
+              <form id="reservationForm" novalidate>
+                <div class="row g-3">
+                  <div class="col-12">
+                    <label for="name" class="form-label fw-semibold">Name</label>
+                    <input type="text" class="form-control" id="name" required aria-describedby="nameHelp">
+                    <div id="nameHelp" class="help-hint">Full name as it appears on your ID.</div>
+                    <div class="invalid-feedback">Please enter your name.</div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label for="date" class="form-label fw-semibold">Date</label>
+                    <input type="date" class="form-control" id="date" required>
+                    <div class="invalid-feedback">Please choose a valid date (today or later).</div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label for="time" class="form-label fw-semibold">Time</label>
+                    <input type="time" class="form-control" id="time" required>
+                    <div class="invalid-feedback">Pick a time during opening hours.</div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label fw-semibold d-block">Guests</label>
+                    <div class="input-group guest-stepper" role="group" aria-label="Guest counter">
+                      <button type="button" class="btn btn-outline-secondary" id="minusGuests" aria-label="Decrease guests">
+                        <i class="bi bi-dash"></i>
+                      </button>
+                      <input type="number" class="form-control text-center" id="guests" min="1" max="20" value="2" required aria-describedby="guestHelp">
+                      <button type="button" class="btn btn-outline-secondary" id="plusGuests" aria-label="Increase guests">
+                        <i class="bi bi-plus"></i>
+                      </button>
+                    </div>
+                    <div id="guestHelp" class="help-hint">1–20 guests. For 8+ we’ll follow up by phone.</div>
+                    <div class="invalid-feedback">Please enter guests between 1 and 20.</div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label for="email" class="form-label fw-semibold">Contact Email</label>
+                    <input type="email" class="form-control" id="email" required aria-describedby="emailHelp">
+                    <div id="emailHelp" class="help-hint">We’ll send your confirmation here.</div>
+                    <div class="invalid-feedback">Please enter a valid email.</div>
+                  </div>
+
+                  <div class="col-12">
+                    <label for="notes" class="form-label fw-semibold">Notes (optional)</label>
+                    <textarea class="form-control" id="notes" rows="3" placeholder="Special requests, allergies..."></textarea>
+                  </div>
+
+                  <div class="col-12 d-flex flex-wrap gap-2">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill" data-quick="today">
+                      Today
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary rounded-pill" data-quick="tomorrow">
+                      Tomorrow
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary rounded-pill" data-quick="evening">
+                      Next available evening
+                    </button>
+                  </div>
+
+                  <div class="col-12 pt-1">
+                    <span class="help-hint">
+                      By booking you agree to our 15-minute hold policy. Parties of 8+ may require a deposit.
+                    </span>
+                  </div>
+
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-outline-light rounded-pill px-4 py-2"
+                            style="background:var(--brand); border-color:var(--brand);">
+                      <i class="bi bi-calendar-check me-1"></i> Reserve Now
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- INFO -->
+        <div class="col-12 col-lg-5">
+          <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+              <h3 class="h5 mb-3">Reservation Policy</h3>
+              <ul class="lead-checklist list-unstyled mb-0">
+                <li><i class="bi bi-check2-circle"></i> Tables held for 15 min past booking</li>
+                <li><i class="bi bi-check2-circle"></i> Parties of 8+ please call ahead</li>
+                <li><i class="bi bi-check2-circle"></i> Vegetarian & gluten-free options</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+              <h3 class="h5 mb-3">Hours & Contact</h3>
+              <div class="row small">
+                <div class="col-6">
+                  <div class="fw-semibold">Mon–Thu</div>
+                  <div>12:00 – 22:00</div>
+                </div>
+                <div class="col-6">
+                  <div class="fw-semibold">Fri–Sun</div>
+                  <div>12:00 – 23:00</div>
+                </div>
+              </div>
+              <hr class="my-3">
+              <div class="small">
+                <div class="mb-1"><i class="bi bi-telephone me-1"></i> +7 (777) 000-0000</div>
+                <div class="mb-1"><i class="bi bi-envelope me-1"></i> bookings@alapierre.kz</div>
+                <div><i class="bi bi-geo-alt me-1"></i> Ust-Kamenogorsk, Kazakhstan</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ratio ratio-4x3 rounded-4 overflow-hidden mt-4 shadow-sm">
+            <iframe
+              src="https://www.google.com/maps?q=49.954319,82.615614&z=15&output=embed"
+              style="border:0" loading="lazy"
+              title="A la Pierre Location"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="red-footer text-white mt-auto">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 small">
+      <div>
+        <div class="brand-title mb-1">A la Pierre</div>
+        <div>© 2025 Amangeldi Alisher • All rights reserved</div>
+      </div>
+      <div class="d-flex gap-3">
+        <a class="btn btn-outline-light rounded-pill" href="contact.html">Get in touch</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Elements
+    const form = document.getElementById('reservationForm');
+    const success = document.getElementById('resSuccess');
+    const error = document.getElementById('resError');
+    const dateEl = document.getElementById('date');
+    const timeEl = document.getElementById('time');
+    const guestsEl = document.getElementById('guests');
+    const minusBtn = document.getElementById('minusGuests');
+    const plusBtn = document.getElementById('plusGuests');
+
+    // Opening hours: Mon-Thu 12:00-22:00, Fri-Sun 12:00-23:00
+    function getHoursFor(date) {
+      const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      const day = d.getDay(); // 0 Sun ... 6 Sat
+      const open = { h: 12, m: 0 };
+      const close = (day === 0 || day === 5 || day === 6) ? { h: 23, m: 0 } : { h: 22, m: 0 };
+      return { open, close };
+    }
+    function toTimeString(h, m) {
+      const hh = String(h).padStart(2, '0');
+      const mm = String(m).padStart(2, '0');
+      return `${hh}:${mm}`;
+    }
+    function clampTimeToHours(dateStr, timeInput) {
+      if (!dateStr || !timeInput.value) return;
+      const { open, close } = getHoursFor(new Date(dateStr));
+      const min = toTimeString(open.h, open.m);
+      const max = toTimeString(close.h, close.m);
+      timeInput.min = min;
+      timeInput.max = max;
+      if (timeInput.value < min) timeInput.value = min;
+      if (timeInput.value > max) timeInput.value = max;
+    }
+
+    // Default date/time: today + next available slot
+    (function initDefaults() {
+      const tzNow = new Date();
+      const yyyy = tzNow.getFullYear();
+      const mm = String(tzNow.getMonth() + 1).padStart(2, '0');
+      const dd = String(tzNow.getDate()).padStart(2, '0');
+      const todayStr = `${yyyy}-${mm}-${dd}`;
+
+      dateEl.min = todayStr;
+      dateEl.value = todayStr;
+
+      const { open, close } = getHoursFor(tzNow);
+      timeEl.min = toTimeString(open.h, open.m);
+      timeEl.max = toTimeString(close.h, close.m);
+
+      // Choose a reasonable default time (next full half-hour, clamped to hours)
+      const proposed = new Date(tzNow);
+      proposed.setMinutes(proposed.getMinutes() + (30 - (proposed.getMinutes() % 30 || 30)));
+      let ph = proposed.getHours(), pm = proposed.getMinutes();
+      const minStr = timeEl.min, maxStr = timeEl.max;
+      let def = toTimeString(ph, pm);
+      if (def < minStr) def = minStr;
+      if (def > maxStr) def = maxStr;
+      timeEl.value = def;
+    })();
+
+    // Update hours when date changes
+    dateEl.addEventListener('change', () => clampTimeToHours(dateEl.value, timeEl));
+
+    // Quick-pick buttons
+    document.querySelectorAll('[data-quick]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const kind = btn.getAttribute('data-quick');
+        const base = new Date();
+        if (kind === 'tomorrow') base.setDate(base.getDate() + 1);
+        if (kind === 'today') {/* no-op */}
+        if (kind === 'evening') {
+          // set to 19:00 and clamp to hours for that day
+          const yyyy = base.getFullYear();
+          const mm = String(base.getMonth() + 1).padStart(2, '0');
+          const dd = String(base.getDate()).padStart(2, '0');
+          dateEl.value = `${yyyy}-${mm}-${dd}`;
+          clampTimeToHours(dateEl.value, timeEl);
+          timeEl.value = (timeEl.max >= '19:00' ? '19:00' : timeEl.max);
+          return;
+        }
+        // today/tomorrow: set date and clamp
+        const yyyy = base.getFullYear();
+        const mm = String(base.getMonth() + 1).padStart(2, '0');
+        const dd = String(base.getDate()).padStart(2, '0');
+        dateEl.value = `${yyyy}-${mm}-${dd}`;
+        clampTimeToHours(dateEl.value, timeEl);
+      });
+    });
+
+    // Guest stepper
+    minusBtn.addEventListener('click', () => {
+      const v = Math.max(parseInt(guestsEl.value || '1', 10) - 1, parseInt(guestsEl.min, 10));
+      guestsEl.value = v;
+    });
+    plusBtn.addEventListener('click', () => {
+      const v = Math.min(parseInt(guestsEl.value || '1', 10) + 1, parseInt(guestsEl.max, 10));
+      guestsEl.value = v;
+    });
+
+    // Form validation & submission
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      success.classList.add('d-none');
+      error.classList.add('d-none');
+
+      // Bootstrap-style constraint validation
+      const requiredOK = ['name','date','time','guests','email'].every(id => form[id].value.trim() !== '');
+
+      // Check time is within hours for chosen date
+      const chosenDate = dateEl.value ? new Date(dateEl.value) : null;
+      let timeOK = !!timeEl.value;
+      if (chosenDate && timeOK) {
+        const { open, close } = getHoursFor(chosenDate);
+        const min = toTimeString(open.h, open.m);
+        const max = toTimeString(close.h, close.m);
+        timeOK = (timeEl.value >= min && timeEl.value <= max);
+      }
+
+      // Guests bounds
+      const g = parseInt(guestsEl.value || '0', 10);
+      const guestsOK = g >= parseInt(guestsEl.min, 10) && g <= parseInt(guestsEl.max, 10);
+
+      // Toggle invalid UI
+      ['name','date','time','guests','email'].forEach(id => {
+        const el = form[id];
+        if (!el) return;
+        const validNow = id === 'time' ? timeOK && el.value.trim() !== '' :
+                         id === 'guests' ? guestsOK && el.value.trim() !== '' :
+                         el.value.trim() !== '';
+        el.classList.toggle('is-invalid', !validNow);
+      });
+
+      if (requiredOK && timeOK && guestsOK) {
+        success.classList.remove('d-none');
+        form.reset();
+        // reset defaults after clear
+        const now = new Date();
+        const yyyy = now.getFullYear();
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        dateEl.min = `${yyyy}-${mm}-${dd}`;
+        dateEl.value = `${yyyy}-${mm}-${dd}`;
+        clampTimeToHours(dateEl.value, timeEl);
+        timeEl.value = timeEl.min;
+        guestsEl.value = 2;
+        ['name','date','time','guests','email'].forEach(id => form[id].classList.remove('is-invalid'));
+      } else {
+        error.classList.remove('d-none');
+      }
+    });
+  </script>
+</body>
+</html>

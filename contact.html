@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>A la Pierre — Contact</title>
+  <meta name="description" content="Contact A la Pierre restaurant in Ust-Kamenogorsk — reach us for bookings, events, or feedback." />
+
+  <!-- CSS & Assets -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600..800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* Page‑specific tiny tweaks */
+    .contact-hero{ min-height: 42vh; }
+    .form-hint{ color: var(--muted); font-size: .9rem; }
+    .required::after{ content:" *"; color: #dc3545; }
+  </style>
+</head>
+
+<body class="bg-body text-body min-vh-100 d-flex flex-column">
+  <a class="visually-hidden-focusable position-absolute top-0 start-0 p-2" href="#main">Skip to main content</a>
+
+  <!-- NAVBAR -->
+  <header class="sticky-top red-nav shadow-sm" role="banner">
+    <nav class="navbar navbar-expand-lg navbar-dark" aria-label="Main navigation">
+      <div class="container">
+        <a class="navbar-brand fw-bold brand-title text-accent" href="index.html">🍽️ A&nbsp;la&nbsp;Pierre</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="mainNav" class="collapse navbar-collapse">
+          <ul class="navbar-nav ms-auto align-items-lg-center nav-underline">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="menu.html">Menu</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="reservations.html">Reservations</a></li>
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero-about contact-hero text-white d-flex align-items-center text-center" aria-labelledby="page-title">
+    <div class="overlay" aria-hidden="true"></div>
+    <div class="container position-relative py-5">
+      <h1 id="page-title" class="display-4 fw-bold fancy-heading mb-2">Get in Touch</h1>
+      <p class="lead opacity-90 mb-0">We’d love to hear from you — drop us a message or visit in person!</p>
+    </div>
+  </section>
+
+  <!-- CONTACT CONTENT -->
+  <main id="main" class="py-5 flex-grow-1">
+    <div class="container">
+      <div class="row g-5 align-items-start">
+        
+        <!-- Contact Info -->
+        <div class="col-12 col-lg-5">
+          <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+              <h2 class="h1 section-title mb-4">Contact Info</h2>
+              <ul class="list-unstyled fs-6 mb-4">
+                <li class="mb-3"><i class="bi bi-geo-alt-fill text-accent me-2" aria-hidden="true"></i>Ust-Kamenogorsk, Kazakhstan</li>
+                <li class="mb-3"><i class="bi bi-telephone-fill text-accent me-2" aria-hidden="true"></i><a class="link-dark text-decoration-none" href="tel:+77770000000">+7 (777) 000‑0000</a></li>
+                <li class="mb-3"><i class="bi bi-envelope-fill text-accent me-2" aria-hidden="true"></i><a class="link-dark text-decoration-none" href="mailto:info@alapierre.kz">info@alapierre.kz</a></li>
+              </ul>
+
+              <h3 class="h5 mb-3">Opening Hours</h3>
+              <ul class="list-unstyled small mb-0">
+                <li>Mon – Fri: 10:00 – 22:00</li>
+                <li>Saturday: 11:00 – 23:00</li>
+                <li>Sunday: Closed</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Google Map -->
+          <div class="ratio ratio-4x3 rounded-4 overflow-hidden shadow-sm" aria-label="Map">
+            <iframe
+              src="https://www.google.com/maps?q=49.954319,82.615614&z=15&output=embed"
+              style="border:0" loading="lazy" title="A la Pierre Location" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="col-12 col-lg-7">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body p-4 p-md-5">
+              <h2 class="h1 section-title mb-4">Send a Message</h2>
+
+              <!-- live region messages for a11y -->
+              <div class="alert alert-success d-none" id="msgSuccess" role="status" aria-live="polite">✅ Message sent successfully!</div>
+              <div class="alert alert-danger d-none" id="msgError" role="alert" aria-live="assertive">⚠️ Please fill in all fields correctly.</div>
+
+              <form id="contactForm" novalidate>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label for="name" class="form-label fw-semibold required">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Your full name" minlength="2" required>
+                    <div class="invalid-feedback">Please enter your name (2+ characters).</div>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="email" class="form-label fw-semibold required">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" inputmode="email" placeholder="you@example.com" required>
+                    <div class="invalid-feedback">Please provide a valid email address.</div>
+                  </div>
+                  <div class="col-12">
+                    <label for="subject" class="form-label fw-semibold required">Subject</label>
+                    <input type="text" class="form-control" id="subject" name="subject" placeholder="What’s this about?" minlength="3" required>
+                    <div class="form-hint">Keep it short (min 3 characters).</div>
+                    <div class="invalid-feedback">Subject is required (3+ characters).</div>
+                  </div>
+                  <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <label for="message" class="form-label fw-semibold required mb-0">Message</label>
+                      <small id="charCount" class="text-muted">0/500</small>
+                    </div>
+                    <textarea class="form-control" id="message" name="message" rows="5" placeholder="Write your message…" minlength="10" maxlength="500" required></textarea>
+                    <div class="invalid-feedback">Message must be 10–500 characters.</div>
+                  </div>
+
+                  <!-- Honeypot (spam deterrent) -->
+                  <div class="d-none">
+                    <label for="company">Company</label>
+                    <input id="company" name="company" type="text" tabindex="-1" autocomplete="off">
+                  </div>
+
+                  <div class="col-12 mt-2">
+                    <button type="submit" class="btn btn-outline-light rounded-pill px-4 py-2" style="background:var(--brand); border-color:var(--brand);">
+                      <i class="bi bi-send me-1" aria-hidden="true"></i> Send Message
+                    </button>
+                    <button type="button" id="btnClear" class="btn btn-link text-decoration-none ms-2">Clear</button>
+                  </div>
+                </div>
+              </form>
+
+              <p class="small text-muted mb-0 mt-3">By submitting, you agree that we may store your contact details to reply. We never share your data.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="red-footer text-white mt-auto" role="contentinfo">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 small">
+      <div>
+        <div class="brand-title mb-1">A la Pierre</div>
+        <div>© 2025 Amangeldi Alisher • All rights reserved</div>
+      </div>
+      <div class="d-flex gap-3">
+        <a class="btn btn-outline-light rounded-pill" href="reservations.html">Book a table</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script>
+    // ===== Form Helpers: character counter + draft persistence =====
+    const form = document.getElementById('contactForm');
+    const success = document.getElementById('msgSuccess');
+    const error = document.getElementById('msgError');
+    const charCount = document.getElementById('charCount');
+    const messageEl = document.getElementById('message');
+
+    // Character counter
+    const updateCount = () => { charCount.textContent = `${messageEl.value.length}/500`; };
+    messageEl.addEventListener('input', updateCount); updateCount();
+
+    // Save/restore draft (localStorage)
+    const fields = ['name','email','subject','message'];
+    fields.forEach(id=>{
+      const el = document.getElementById(id);
+      // restore
+      const saved = localStorage.getItem(`contact:${id}`);
+      if(saved) el.value = saved;
+      // save on input
+      el.addEventListener('input', ()=> localStorage.setItem(`contact:${id}`, el.value));
+    });
+
+    // Clear button
+    document.getElementById('btnClear').addEventListener('click', ()=>{
+      form.reset(); updateCount();
+      success.classList.add('d-none');
+      error.classList.add('d-none');
+    });
+
+    // ===== Validation & submit (Bootstrap + custom) =====
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      success.classList.add('d-none');
+      error.classList.add('d-none');
+
+      // Honeypot check
+      if (document.getElementById('company').value.trim() !== '') {
+        error.classList.remove('d-none');
+        return;
+      }
+
+      // HTML5 validity + custom length checks
+      if (!form.checkValidity() || messageEl.value.trim().length < 10) {
+        form.classList.add('was-validated');
+        error.classList.remove('d-none');
+        return;
+      }
+
+      // Fake success UI
+      success.classList.remove('d-none');
+      form.classList.remove('was-validated');
+      fields.forEach(id => localStorage.removeItem(`contact:${id}`));
+      form.reset(); updateCount();
+
+      // Small flair with jQuery (counts toward jQuery requirement)
+      $(success).hide().fadeIn(250).delay(1200).fadeOut(400);
+    });
+  </script>
+</body>
+</html>
